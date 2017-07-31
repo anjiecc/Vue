@@ -1,17 +1,33 @@
 <template>
-  <div class="delPhoto" id="delPhoto">
-    <!-- <div class="row">
-        <div class="col-sm-6 col-xs-6 col-md-3" v-for="item in fileList">
-          <div class="thumbnail">
-            <img :src="item.url" alt="" class="" style="height:300px">
-            <div class="caption">
-              <p>创建者:{{item.author}}</p>
-              <p>创建时间:{{item.date}}</p>
-              <p><a href="#" class="btn btn-primary" role="button">删除</a></p>
-            </div>
-          </div>
-        </div>
-      </div> -->
+  <div class="deljs" id="deljs">
+    <el-table :data="tableData" border style="width: 100%">
+      <el-table-column prop="date" label="日期" sortable width="180">
+      </el-table-column>
+      <el-table-column prop="name" label="作者" width="180">
+      </el-table-column>
+      <el-table-column prop="mm" label="名称">
+      </el-table-column>
+      <el-table-column prop="info" label="描述信息">
+      </el-table-column>
+      <el-table-column prop="type" label="类型">
+      </el-table-column>
+      <el-table-column prop="size" label="大小">
+      </el-table-column>
+      <el-table-column prop="tag" label="标签" width="100" :filters="[{ text: 'Vue', value: 'Vue' }, { text: 'JavaScript', value: 'JavaScript' },{ text: 'NodeJs', value: 'NodeJs' }]" :filter-method="filterTag" filter-placement="bottom-end">
+        <template scope="scope">
+          <el-tag :type="scope.row.tag === '家' ? 'primary' : 'success'" close-transition>{{scope.row.tag}}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作">
+        <template scope="scope">
+          <el-button size="small" type="success" @click="pre(scope.$index, scope.row)">预览</el-button>
+           <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <el-dialog title="预览" :visible.sync="dialogTableVisible" size="full">
+      <div id="pre"></div>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -20,7 +36,9 @@ import marked from 'marked';
 export default {
   data() {
     return {
-      fileList: []
+      fileList: [],
+      tableData: [],
+      dialogTableVisible: false
     }
   },
   mounted() {
@@ -29,7 +47,7 @@ export default {
 
   },
   methods: {
-    _init() { 
+    _init() {
       var rendererMD = new marked.Renderer();
       marked.setOptions({
         renderer: rendererMD,
@@ -43,13 +61,68 @@ export default {
         // highlight: function (code) {
         //   return hljs.highlightAuto(code).value;
         //   }   
-        });
+      });
       this.$http.get("/file/getPhoto?fileType=md").then(data => {
-          if(data.body && data.body.msg){
-              document.getElementById('delPhoto').innerHTML = marked(data.body.data.data[0].url);
+        if (data.body && data.body.msg) {
+          // document.getElementById('delPhoto').innerHTML = marked(data.body.data.data[0].url);
+          console.log(data.body.data);
+          this.tableData = [];
+          _.each(data.body.data.data, item => {
+            this.tableData.push({
+              id: item.id,
+              date: item.date,
+              name: item.author,
+              mm: item.name,
+              info: item.url.substring(0, 20),
+              url:item.url,
+              type: item.type,
+              size: item.size,
+              tag: 'Vue'
+            })
+          });
+
+        }
+      });
+
+    },
+    formatter(row, column) {
+      return row.address;
+    },
+    filterTag(value, row) {
+      return row.tag === value;
+    },
+    handleDelete(index, row) {
+      let _id = row.id;
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$http.get(`/file/delPhoto?id=${_id}`).then(data => {
+          if (data.body && data.body.msg) {
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
+            this._init();
           }
-      }); 
-      
+        });
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+
+
+
+    },
+    pre(index,row){
+      this.dialogTableVisible = true;
+      setTimeout(() => {
+        document.getElementById('pre').innerHTML = marked(row.url);
+      },1000) 
     }
   }
 }
@@ -63,5 +136,9 @@ export default {
 .delPhoto .caption {
   background: rgb(72, 87, 106);
   color: #fff;
+}
+
+.deljs .el-table th {
+  text-align: center;
 }
 </style>

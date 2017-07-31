@@ -12,22 +12,22 @@
   <!-- <div class="content"> -->
     <div class="left-menu">
       <el-menu default-active="/admin" :router="isPath" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
-        <el-submenu index="/admin">
-          <template slot="title"><i class="el-icon-document"></i>文章</template>
-          <el-menu-item-group>
-            <el-menu-item index="/admin/addJs">在线编辑</el-menu-item>
-            <el-menu-item index="/admin/upload">上传文章</el-menu-item>
-            <el-menu-item index="/admin/delJs">删除文章</el-menu-item>
+        <!-- <el-submenu index="/admin"> -->
+          <!-- <template slot="title"><i class="el-icon-document"></i>文章</template> -->
+          <el-menu-item-group title="文章">
+            <el-menu-item index="/admin/addJs"><i class="el-icon-document"></i>在线编辑</el-menu-item>
+            <el-menu-item index="/admin/upload"><i class="el-icon-document"></i>上传文章</el-menu-item>
+            <el-menu-item index="/admin/delJs"><i class="el-icon-document"></i>删除文章</el-menu-item>
           </el-menu-item-group>
-        </el-submenu>
-        <el-submenu index="/admin/preView">
-          <template slot="title"><i class="el-icon-picture"></i>相册</template>
-          <el-menu-item-group>
-            <el-menu-item index="/admin/addPhoto">添加照片</el-menu-item>
-            <el-menu-item index="/admin/delPhoto">删除照片</el-menu-item>
-            <el-menu-item index="/admin/preView">预览照片</el-menu-item>
+        <!-- </el-submenu> -->
+        <!-- <el-submenu index="/admin/preView"> -->
+          <!-- <template slot="title"><i class="el-icon-picture"></i>相册</template> -->
+          <el-menu-item-group title="相册">
+            <el-menu-item index="/admin/addPhoto"><i class="el-icon-document"></i>添加照片</el-menu-item>
+            <el-menu-item index="/admin/delPhoto"><i class="el-icon-document"></i>删除照片</el-menu-item>
+            <el-menu-item index="/admin/preView"><i class="el-icon-document"></i>预览照片</el-menu-item>
           </el-menu-item-group>
-        </el-submenu>
+        <!-- </el-submenu> -->
         <el-menu-item index="2"><i class="el-icon-setting"></i>监控分析</el-menu-item>
         <el-menu-item index="3"><i class="el-icon-more"></i>编辑</el-menu-item>
       </el-menu>

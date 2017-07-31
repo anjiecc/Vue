@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # vue
 
 > A Vue.js project
@@ -19,3 +20,7 @@ npm run build --report
 ```
 
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+=======
+# movie-nodeJs-express
+movie
+>>>>>>> e0958ddef2dec446a189091c00da3cf36b963e90
