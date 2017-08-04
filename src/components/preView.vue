@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     _init() { //初始化获取全部文件数据
-      this.$http.get("/file/getPhoto?fileType=\"photo\"").then(data => {
+      this.$http.get("/file/getFile?fileType=photo").then(data => {
         console.log(data);
         if (data.body && data.body.msg) {
           this.fileList = [];

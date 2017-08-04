@@ -5,13 +5,13 @@
  * @Last modified time: 2017-07-10T10:56:17+08:00
  */
 /*global require*/
-var express = require('express');
-var router = express.Router();
-var service = require('./apiService.js');
-var multiparty = require('multiparty');
-var fs = require('fs');
+const express = require('express');
+const router = express.Router();
+const service = require('./apiService.js');
+const multiparty = require('multiparty');
+const fs = require('fs');
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', (req, res, next) => {
     res.render('index', {
         title: 'Express'
     });
@@ -20,14 +20,14 @@ router.get('/', function(req, res, next) {
 /**
  * 登录
  */
-router.get('/login', function(req, res) {
+router.get('/login', (req, res) => {
     var userName = req.query.userName;
 
     var passWord = req.query.passWord;
 
     var array = [userName, passWord];
 
-    service.login(array, function(data) {
+    service.login(array, (data) => {
         if (data) {
             console.log('登录成功!');
             res.send({
@@ -47,14 +47,14 @@ router.get('/login', function(req, res) {
 /**
  * 上传接口
  */
-router.post('/file/upload', function(req, res) {
+router.post('/file/upload', (req, res) => {
     //生成multiparty对象，并配置上传目标路径
     var form = new multiparty.Form({
         uploadDir: './static'
     });
 
     //上传完成后处理
-    form.parse(req, function(err, fields, files) {
+    form.parse(req, (err, fields, files) => {
         var filesTmp = JSON.stringify(files, null, 2);
         if (err) {
             console.log('parse error: ' + err);
@@ -70,7 +70,7 @@ router.post('/file/upload', function(req, res) {
 
             var size = file.size;
             //重命名为真实文件名
-            fs.rename(uploadedPath, dstPath, function(err) {
+            fs.rename(uploadedPath, dstPath, (err) => {
                 if (err) {
                     console.log('rename error: ' + err);
                     res.send({
@@ -96,10 +96,10 @@ router.post('/file/upload', function(req, res) {
 /**
  * 获取图片资源
  */
-router.get('/file/getPhoto', function(req, res) {
+router.get('/file/getFile', (req, res) => {
     var _type = req.query.fileType;
 
-    service.getFile([_type], function(data) {
+    service.getFile([_type], (data) => {
         res.send(data);
     });
 });
@@ -107,7 +107,7 @@ router.get('/file/getPhoto', function(req, res) {
 /**
  * 添加照片接口
  */
-router.get('/file/addPhoto', function(req, res) {
+router.get('/file/addFile', (req, res) => {
     var _data = req.query;
 
     var id = _data.id;
@@ -128,7 +128,7 @@ router.get('/file/addPhoto', function(req, res) {
 
     var params = [id, name, url, size, type, date, author, fileType];
 
-    service.addPhoto(params, function(data) {
+    service.addPhoto(params, (data) => {
         res.send(data);
     });
 });
@@ -136,28 +136,53 @@ router.get('/file/addPhoto', function(req, res) {
 /**
  * 删除照片接口
  */
-router.get('/file/delPhoto', function(req, res) {
+router.get('/file/delFile', (req, res) => {
     var _id = req.query.id;
+    var path = req.query.path;
 
-    service.delPhoto([_id], function(data) {
+    service.delPhoto([_id], (data) => {
+        if (data.msg && path) {
+            fs.unlink(path, (err, succ) => {
+                // if (err) {throw err};
+                // res.send(data);
+            });
+        }
         res.send(data);
     });
 
 });
-
-router.get('/getData', function(req, res) {
+/**
+ * 测试接口
+ */
+router.get('/getData', (req, res) => {
     res.send({
         data: [1, 2, 3],
         success: true
     })
 });
-
+/**
+ * 添加文件
+ */
 router.post('/file/add', (req, res) => {
     var data = req.body.data;
     var _param = [data.id, data.name, data.url, data.size, data.type, data.date, data.author, data.fileType];
-    service.addPhoto(_param, function(data) {
+    service.addPhoto(_param, (data) => {
         res.send(data);
     });
 
 });
+/**
+ * 读取文件
+ */
+router.get('/file/readFile', (req, res) => {
+    let path = req.query.path;
+
+    fs.readFile(path, 'utf-8', (err, data) => {
+        if (err) {
+            throw err
+        }
+        res.send(data);
+    });
+});
+
 module.exports = router;

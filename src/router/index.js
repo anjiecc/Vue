@@ -17,6 +17,7 @@ import delJs from '../components/delJs';
 import addPhoto from '../components/addPhoto';
 import delPhoto from '../components/delPhoto';
 import preView from '../components/preView';
+import uploadJs from '../components/uploadJs';
 
 Vue.use(Router);
 
@@ -55,6 +56,10 @@ export default new Router({
         path:'/admin/preView',
         name:'preView',
         component:preView
+      },{
+        path:'/admin/uploadJs',
+        name:'uploadJs',
+        component:uploadJs
       }]
     }
   ]

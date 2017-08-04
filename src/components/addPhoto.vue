@@ -12,6 +12,7 @@
   </div>
 </template>
 <script>
+const typeArray = ['image/jpeg','image/png'];
 export default {
   data() {
     return {
@@ -24,14 +25,14 @@ export default {
   },
   methods: {
     _init() { //初始化获取全部文件数据
-      this.$http.get("/file/getPhoto?fileType=\"photo\"").then(data => {
+      this.$http.get("/file/getFile?fileType=photo").then(data => {
         console.log(data);
         var currentTime = new Date().getTime() - 86400000;
         
         if(data.body && data.body.msg){
           _.each(data.body.data.data,(item => {
              var _time = new Date(item.date).getTime();
-             if(currentTime < _time){
+             if(currentTime < +item.id.split("'")[1]){
                 this.fileList2.push({
                   name:item.name,
                   url:item.url
@@ -49,11 +50,17 @@ export default {
     },
     beforeLoad(file) { //上传之前回调
       // console.log(file);
-
+      if (typeArray.indexOf(file.type) < 0) {
+                this.$notify.error({
+                    title: '错误',
+                    message: "目前只支持jpg/jpeg/png格式的文件!"
+                });
+                return false;
+            }
     },
     uploadSuccess(res, file, fileList) { // 上传成功回调
       if (res.type) {
-        var _url = `/file/addPhoto?id='${new Date().getTime()}'&name=${file.name}&url=${res.originalUrl}&size=${res.size}&date=${new Date(new Date().getTime()).toLocaleString()}&author=${this.author.split(';')[0]}&type=${res.headers['content-type']}&fileType="photo"`;
+        var _url = `/file/addFile?id='${new Date().getTime()}'&name=${file.name}&url=${res.originalUrl}&size=${res.size}&date=${new Date(new Date().getTime()).toLocaleString()}&author=${this.author.split(';')[0]}&type=${res.headers['content-type']}&fileType=photo`;
         this.$http.get(_url).then(data => {console.log(data);
           if (data.body.data) {
             this.$notify({

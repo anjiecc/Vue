@@ -12,17 +12,24 @@ var option = {
   password: password,
   database: db_name
 };
-//连接数据库
-var options = {
+//连接数据库 //window mysql
+var options_w = {
   host: '127.0.0.1',
   port: '3306',
   user: 'root',
   password: 'chenanjie123',
   database: 'datas'
-};
-
+}; 
+//连接数据库 //mac mysql
+var options_m = {
+  host: '127.0.0.1',
+  port: '3306',
+  user: 'root',
+  password: '111111',
+  database: 'data'
+}; 
 function query(sql, params, callback) {
-  var client = mysql.createConnection(options);
+  var client = mysql.createConnection(options_m);
   client.query(sql, params,function(err, data) {
     if (err) {
       console.log(err);

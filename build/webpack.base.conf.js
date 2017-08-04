@@ -21,9 +21,9 @@ var _entry= {
     vue: ['vue']
 };
 
-for (var i = 0; i < lang.length; i++) {
-    _entry[lang[i]] = ['mavon-editor/dist/js/' + lang[i] + '.js']
-}
+// for (var i = 0; i < lang.length; i++) {
+//     _entry[lang[i]] = ['mavon-editor/dist/js/' + lang[i] + '.js']
+// }
 
 module.exports = {
   entry:_entry,

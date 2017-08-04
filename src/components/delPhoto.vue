@@ -8,7 +8,7 @@
             <p>创建者:{{item.author}}</p>
             <p>创建时间:{{item.date}}</p>
             <p>
-              <a href="javascript:void 0" class="btn btn-primary" role="button" @click="delPhoto(item.id)">删除</a>
+              <a href="javascript:void 0" class="btn btn-primary" role="button" @click="delPhoto(item.id,item.url)">删除</a>
             </p>
           </div>
         </div>
@@ -28,7 +28,7 @@ export default {
   },
   methods: {
     _init() { //初始化获取全部文件数据
-      this.$http.get("/file/getPhoto?fileType=\"photo\"").then(data => {
+      this.$http.get("/file/getFile?fileType=photo").then(data => {
         console.log(data);
         if (data.body && data.body.msg) {
           this.fileList = [];
@@ -44,8 +44,8 @@ export default {
         }
       });
     },
-    delPhoto(id) {
-      var url = `/file/delPhoto?id=${id}`;
+    delPhoto(id,url) {
+      var url = `/file/delFile?id=${id}&path=${url}`;
       this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -58,6 +58,8 @@ export default {
               message: '删除成功!'
             });
             this._init();
+            var _url = `/file/delFile`
+            this.$http.get()
           }
         });
       }).catch(() => {

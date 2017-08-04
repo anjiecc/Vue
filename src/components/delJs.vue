@@ -13,15 +13,15 @@
       </el-table-column>
       <el-table-column prop="size" label="大小">
       </el-table-column>
-      <el-table-column prop="tag" label="标签" width="100" :filters="[{ text: 'Vue', value: 'Vue' }, { text: 'JavaScript', value: 'JavaScript' },{ text: 'NodeJs', value: 'NodeJs' }]" :filter-method="filterTag" filter-placement="bottom-end">
-        <template scope="scope">
-          <el-tag :type="scope.row.tag === '家' ? 'primary' : 'success'" close-transition>{{scope.row.tag}}</el-tag>
-        </template>
-      </el-table-column>
+      <!-- <el-table-column prop="tag" label="标签" width="100" :filters="[{ text: 'Vue', value: 'Vue' }, { text: 'JavaScript', value: 'JavaScript' },{ text: 'NodeJs', value: 'NodeJs' }]" :filter-method="filterTag" filter-placement="bottom-end">
+            <template scope="scope">
+              <el-tag :type="scope.row.tag === '家' ? 'primary' : 'success'" close-transition>{{scope.row.tag}}</el-tag>
+            </template>
+          </el-table-column> -->
       <el-table-column label="操作">
         <template scope="scope">
           <el-button size="small" type="success" @click="pre(scope.$index, scope.row)">预览</el-button>
-           <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -62,7 +62,7 @@ export default {
         //   return hljs.highlightAuto(code).value;
         //   }   
       });
-      this.$http.get("/file/getPhoto?fileType=md").then(data => {
+      this.$http.get("/file/getFile?fileType=md").then(data => {
         if (data.body && data.body.msg) {
           // document.getElementById('delPhoto').innerHTML = marked(data.body.data.data[0].url);
           console.log(data.body.data);
@@ -74,7 +74,7 @@ export default {
               name: item.author,
               mm: item.name,
               info: item.url.substring(0, 20),
-              url:item.url,
+              url: item.url,
               type: item.type,
               size: item.size,
               tag: 'Vue'
@@ -98,7 +98,8 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$http.get(`/file/delPhoto?id=${_id}`).then(data => {
+        var url = row.type == 'md' ? `/file/delFile?id=${_id}&path=''` : `/file/delFile?id=${_id}&path=${row.url}`;
+        this.$http.get(url).then(data => {
           if (data.body && data.body.msg) {
             this.$message({
               type: 'success',
@@ -118,11 +119,19 @@ export default {
 
 
     },
-    pre(index,row){
+    pre(index, row) {
       this.dialogTableVisible = true;
-      setTimeout(() => {
-        document.getElementById('pre').innerHTML = marked(row.url);
-      },1000) 
+      if (row.type == 'md') {
+        setTimeout(() => {
+          document.getElementById('pre').innerHTML = marked(row.url);
+        }, 1000)
+      } else {
+        var _url = `/file/readFile?path=${row.url}`;
+
+        this.$http.get(_url).then(data => {
+          document.getElementById('pre').innerHTML = marked(data.body);
+        });
+      }
     }
   }
 }

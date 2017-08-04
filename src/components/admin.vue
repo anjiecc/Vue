@@ -16,7 +16,7 @@
           <!-- <template slot="title"><i class="el-icon-document"></i>文章</template> -->
           <el-menu-item-group title="文章">
             <el-menu-item index="/admin/addJs"><i class="el-icon-document"></i>在线编辑</el-menu-item>
-            <el-menu-item index="/admin/upload"><i class="el-icon-document"></i>上传文章</el-menu-item>
+            <el-menu-item index="/admin/uploadJs"><i class="el-icon-document"></i>上传文章</el-menu-item>
             <el-menu-item index="/admin/delJs"><i class="el-icon-document"></i>删除文章</el-menu-item>
           </el-menu-item-group>
         <!-- </el-submenu> -->
