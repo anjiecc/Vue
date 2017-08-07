@@ -28,8 +28,8 @@
             <el-menu-item index="/admin/preView"><i class="el-icon-document"></i>预览照片</el-menu-item>
           </el-menu-item-group>
         <!-- </el-submenu> -->
-        <el-menu-item index="2"><i class="el-icon-setting"></i>监控分析</el-menu-item>
-        <el-menu-item index="3"><i class="el-icon-more"></i>编辑</el-menu-item>
+        <el-menu-item index="/admin/chart"><i class="el-icon-setting"></i>数据分析</el-menu-item>
+        <el-menu-item index="/admin/edit"><i class="el-icon-more"></i>编辑</el-menu-item>
       </el-menu>
     </div>
     <div class="right-content">

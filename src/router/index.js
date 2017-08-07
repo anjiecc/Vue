@@ -18,49 +18,57 @@ import addPhoto from '../components/addPhoto';
 import delPhoto from '../components/delPhoto';
 import preView from '../components/preView';
 import uploadJs from '../components/uploadJs';
+import chart from '../components/chart';
+import edit from '../components/edit';
 
 Vue.use(Router);
 
 export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'index',
-      component: index
-    },{
-      path:'/login',
-      name:'login',
-      component:login
-    },{
-      path:'/admin',
-      name:'admin',
-      component:admin,
-      redirect:'/admin/preView',
-      children:[{
-        path:'/admin/addJs',
-        name:'addJs',
-        component:addJs
-      },{
-        path:'/admin/delJs',
-        name:'delJs',
-        component:delJs
-      },{
-        path:'/admin/addPhoto',
-        name:'addPhoto',
-        component:addPhoto
-      },{
-        path:'/admin/delPhoto',
-        name:'delPhoto',
-        component:delPhoto
-      },{
-        path:'/admin/preView',
-        name:'preView',
-        component:preView
-      },{
-        path:'/admin/uploadJs',
-        name:'uploadJs',
-        component:uploadJs
-      }]
-    }
-  ]
+    routes: [{
+        path: '/',
+        name: 'index',
+        component: index
+    }, {
+        path: '/login',
+        name: 'login',
+        component: login
+    }, {
+        path: '/admin',
+        name: 'admin',
+        component: admin,
+        redirect: '/admin/preView',
+        children: [{
+            path: '/admin/addJs',
+            name: 'addJs',
+            component: addJs
+        }, {
+            path: '/admin/delJs',
+            name: 'delJs',
+            component: delJs
+        }, {
+            path: '/admin/addPhoto',
+            name: 'addPhoto',
+            component: addPhoto
+        }, {
+            path: '/admin/delPhoto',
+            name: 'delPhoto',
+            component: delPhoto
+        }, {
+            path: '/admin/preView',
+            name: 'preView',
+            component: preView
+        }, {
+            path: '/admin/uploadJs',
+            name: 'uploadJs',
+            component: uploadJs
+        }, {
+            path: '/admin/chart',
+            name: 'chart',
+            component: chart
+        }, {
+            path: '/admin/edit',
+            name: 'edit',
+            component: edit
+        }]
+    }]
 });
