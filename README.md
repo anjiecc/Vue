@@ -1,26 +1,13 @@
-<<<<<<< HEAD
-# vue
+根据vue + elementUi 自己写了一个后台管理系统，本来想写一个个人博客和个人博客后台管理系统，写了一半还没有完成，先把半成品放上去。
 
-> A Vue.js project
+### 效果图
+![](./src/assets/my_1.png)
 
-## Build Setup
+![](./src/assets/my_2.png)
 
-``` bash
-# install dependencies
-npm install
 
-# serve with hot reload at localhost:8080
-npm run dev
+![](./src/assets/my_3.png)
 
-# build for production with minification
-npm run build
 
-# build for production and view the bundle analyzer report
-npm run build --report
-```
+![](./src/assets/my_4.png)
 
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
-=======
-# movie-nodeJs-express
-movie
->>>>>>> e0958ddef2dec446a189091c00da3cf36b963e90
